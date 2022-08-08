@@ -26,13 +26,43 @@ func getReverseArr(from incomingArray: [Int]) -> [Int] {
     } while i < (count / 2)
     return resultArray
 }
+print("Задание #1\n")
 print("Исходный массив: \(arrayOfNums)")
 var testArray = getReverseArr(from: arrayOfNums)
-print("Результирующий массив: \(testArray)")
-
+print("Результирующий массив: \(testArray) \n")
+print("Задание #2\n")
 //MARK: - Задание 2
 
+let n = 4 // rows
+let m = 7 // columns
 
+var matrix: [[Int]] = Array(repeating: Array(repeating: 0, count: m), count: n)
+
+for row in 0..<matrix.count {
+    for elemInRow in 0..<matrix[row].count {
+        matrix[row][elemInRow] = Int.random(in: 0...9)
+    }
+}
+
+print("Исходный массив:")
+for row in matrix {
+    print(row)
+}
+
+for row in 0..<matrix.count {
+    if row % 2 != 0 {
+        for elem in 0..<matrix[row].count {
+            let temp = matrix[row][elem]
+            matrix[row][elem] = matrix[row-1][elem]
+            matrix[row-1][elem] = temp
+        }
+    }
+}
+
+print("Результирующий массив:")
+for row in matrix {
+    print(row)
+}
 
 
 
