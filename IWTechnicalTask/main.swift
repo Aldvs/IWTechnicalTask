@@ -9,26 +9,23 @@ import Foundation
 
 //MARK: - Задание 1
 
-var arrayOfNums = [1,2,3,4,5]
+var arrayOfNums = [1,2,3,4,5,6,7]
 
-func getReverseArr(from incomingArray: [Int]) -> [Int] {
-    var resultArray = incomingArray
-    let count = resultArray.count
+func getReverseArr(from incomingArray: inout [Int]) -> [Int] {
+    
     var temp: Int
     
-    var i = 0
-    repeat {
-        temp = resultArray[i]
-        resultArray[i] = resultArray[count - i - 1]
-        resultArray[count - i - 1] = temp
-        
-        i += 1
-    } while i < (count / 2)
-    return resultArray
+    for i in 0...incomingArray.count / 2 {
+        temp = incomingArray[i]
+        incomingArray[i] = incomingArray[incomingArray.count - i - 1]
+        incomingArray[incomingArray.count - i - 1] = temp
+    }
+    return incomingArray
 }
+
 print("Задание #1\n")
 print("Исходный массив: \(arrayOfNums)")
-var testArray = getReverseArr(from: arrayOfNums)
+var testArray = getReverseArr(from: &arrayOfNums)
 print("Результирующий массив: \(testArray) \n")
 print("Задание #2\n")
 //MARK: - Задание 2
