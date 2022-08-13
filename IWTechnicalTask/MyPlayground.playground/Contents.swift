@@ -1,51 +1,47 @@
+import Cocoa
+
+
+//func run() -> [String] {
+//    var pairOfVersions: [String] = []
 //
-//  main.swift
-//  IWTechnicalTask
+//    print("Введите первую версию:")
+//    guard let firstString = readLine(), !firstString.isEmpty else {
+//        print("Вы не ввели первую версию")
+//        return []
+//    }
 //
-//  Created by admin on 08.08.2022.
+//    for char in firstString {
+//        guard char.isNumber || (char == ".") else {
+//            print("Вы использовали некорректные символы в первой версии")
+//            return []
+//        }
+//    }
+//    pairOfVersions.append(firstString)
 //
+//    print("Введите вторую версию:")
+//    guard let secondString = readLine(), !secondString.isEmpty else {
+//        print("Вы не ввели вторую версию")
+//        return []
+//    }
+//
+//    for char in secondString {
+//        guard char.isNumber || (char == ".") else {
+//            print("Вы использовали некорректные символы во второй версии")
+//            return []
+//        }
+//    }
+//    pairOfVersions.append(secondString)
+//
+//    print(pairOfVersions)
+//    return pairOfVersions
+//}
 
-import Foundation
+//var versionStrings = run()
 
-//MARK: - Задание 3. Консоль
+//MARK: - Algo
 
-func run() -> [String] {
-    var pairOfVersions: [String] = []
-        
-    print("Введите первую версию:")
-    guard let firstString = readLine(), !firstString.isEmpty else {
-        print("Вы не ввели первую версию")
-        return []
-    }
-    
-    for char in firstString {
-        guard char.isNumber || (char == ".") else {
-            print("Вы использовали некорректные символы в первой версии")
-            return []
-        }
-    }
-    pairOfVersions.append(firstString)
-    
-    print("Введите вторую версию:")
-    guard let secondString = readLine(), !secondString.isEmpty else {
-        print("Вы не ввели вторую версию")
-        return []
-    }
-    
-    for char in secondString {
-        guard char.isNumber || (char == ".") else {
-            print("Вы использовали некорректные символы во второй версии")
-            return []
-        }
-    }
-    pairOfVersions.append(secondString)
-    
-    return pairOfVersions
-}
-
-var versionStrings = run()
-
-//MARK: - Метод
+var first = "2.2.2.2.1"
+var second = "2.2.2.2.2"
 
 func compareVersions(compare firstVersion: String, with secondVersion: String) {
     
@@ -101,32 +97,19 @@ func compareVersions(compare firstVersion: String, with secondVersion: String) {
         }
     }
     
-    getArrayForCompare(firstVersion)
-    getArrayForCompare(secondVersion)
-    removeZero()
-        
-    if firstVersionArr == secondVersionArr {
-        print("Версии равны.")
-    }
+    print(firstVersionArr)
+    print(secondVersionArr)
     
     for i in 0...min(firstVersionArr.count, secondVersionArr.count) {
         if firstVersionArr[i] == secondVersionArr[i] {
             continue
         } else if firstVersionArr[i] < secondVersionArr[i] {
             print("Вторая версия больше.")
-            return
-        } else if firstVersionArr[i] > secondVersionArr[i] {
-            print("Первая версия больше.")
-            return
         } else {
-            print("Версии равны.")
-            return
+            print("Первая версия больше.")
         }
     }
     
-    
 }
 
-compareVersions(compare: versionStrings[0], with: versionStrings[1])
-
-
+compareVersions(compare: first, with: second)

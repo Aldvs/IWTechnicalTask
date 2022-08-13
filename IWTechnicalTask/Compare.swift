@@ -1,51 +1,11 @@
 //
-//  main.swift
+//  Compare.swift
 //  IWTechnicalTask
 //
-//  Created by admin on 08.08.2022.
+//  Created by admin on 13.08.2022.
 //
 
 import Foundation
-
-//MARK: - Задание 3. Консоль
-
-func run() -> [String] {
-    var pairOfVersions: [String] = []
-        
-    print("Введите первую версию:")
-    guard let firstString = readLine(), !firstString.isEmpty else {
-        print("Вы не ввели первую версию")
-        return []
-    }
-    
-    for char in firstString {
-        guard char.isNumber || (char == ".") else {
-            print("Вы использовали некорректные символы в первой версии")
-            return []
-        }
-    }
-    pairOfVersions.append(firstString)
-    
-    print("Введите вторую версию:")
-    guard let secondString = readLine(), !secondString.isEmpty else {
-        print("Вы не ввели вторую версию")
-        return []
-    }
-    
-    for char in secondString {
-        guard char.isNumber || (char == ".") else {
-            print("Вы использовали некорректные символы во второй версии")
-            return []
-        }
-    }
-    pairOfVersions.append(secondString)
-    
-    return pairOfVersions
-}
-
-var versionStrings = run()
-
-//MARK: - Метод
 
 func compareVersions(compare firstVersion: String, with secondVersion: String) {
     
@@ -104,7 +64,10 @@ func compareVersions(compare firstVersion: String, with secondVersion: String) {
     getArrayForCompare(firstVersion)
     getArrayForCompare(secondVersion)
     removeZero()
-        
+    
+    print(firstVersionArr)
+    print(secondVersionArr)
+    
     if firstVersionArr == secondVersionArr {
         print("Версии равны.")
     }
@@ -123,10 +86,6 @@ func compareVersions(compare firstVersion: String, with secondVersion: String) {
             return
         }
     }
-    
-    
 }
 
 compareVersions(compare: versionStrings[0], with: versionStrings[1])
-
-
