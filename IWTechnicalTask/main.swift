@@ -7,7 +7,7 @@
 
 import Foundation
 
-//MARK: - Задание 3. Консоль
+//MARK: - Ввод и проверка данных
 
 func run() -> [String] {
     var pairOfVersions: [String] = []
@@ -45,7 +45,7 @@ func run() -> [String] {
 
 var versionStrings = run()
 
-//MARK: - Метод
+//MARK: - Метод сравнения
 
 func compareVersions(compare firstVersion: String, with secondVersion: String) -> Int {
     
