@@ -47,7 +47,9 @@ var versionStrings = run()
 
 //MARK: - Метод
 
-func compareVersions(compare firstVersion: String, with secondVersion: String) {
+func compareVersions(compare firstVersion: String, with secondVersion: String) -> Int {
+    
+    var result = 0
     
     var firstVersionArr:[String] = []
     var secondVersionArr:[String] = []
@@ -104,29 +106,38 @@ func compareVersions(compare firstVersion: String, with secondVersion: String) {
     getArrayForCompare(firstVersion)
     getArrayForCompare(secondVersion)
     removeZero()
-        
-    if firstVersionArr == secondVersionArr {
-        print("Версии равны.")
-    }
     
-    for i in 0...min(firstVersionArr.count, secondVersionArr.count) {
-        if firstVersionArr[i] == secondVersionArr[i] {
-            continue
+    for i in 0..<min(firstVersionArr.count, secondVersionArr.count) {
+        if firstVersionArr[i] > secondVersionArr[i] {
+            result -= 1
+            break
         } else if firstVersionArr[i] < secondVersionArr[i] {
-            print("Вторая версия больше.")
-            return
-        } else if firstVersionArr[i] > secondVersionArr[i] {
-            print("Первая версия больше.")
-            return
+            result += 1
+            break
         } else {
-            print("Версии равны.")
-            return
+            continue
         }
     }
     
+    if result == 0 && firstVersionArr.count > secondVersionArr.count {
+        result -= 1
+    } else if result == 0 && firstVersionArr.count < secondVersionArr.count {
+        result += 1
+    }
     
+    switch result {
+    case -1:
+        print("Первая версия больше.")
+    case 1:
+        print("Вторая версия больше.")
+    default:
+        print("Версии равны.")
+    }
+    print("Результат: \(result)")
+    
+    return result
 }
 
-compareVersions(compare: versionStrings[0], with: versionStrings[1])
-
+let compareResult = compareVersions(compare: versionStrings[0], with: versionStrings[1])
+print(compareResult)
 
