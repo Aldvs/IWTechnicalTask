@@ -14,6 +14,7 @@ func compareVersions(compare firstVersion: String?, with secondVersion: String?)
     var firstVersionArr:[String] = []
     var secondVersionArr:[String] = []
     
+    //обработка введенных данных
     guard let firstString = firstVersion, !firstString.isEmpty else {
         print("Вы не ввели первую версию")
         exit(1)
