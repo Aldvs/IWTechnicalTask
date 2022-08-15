@@ -7,15 +7,16 @@
 
 import Foundation
 
-//MARK: - Ввод и проверка данных
+//MARK: - Ввод данных
 print("Введите первую версию:")
 let first = readLine()
-
 print("Введите вторую версию:")
 let second = readLine()
 
+//вызов метода сравнения
 let compareResult = compareVersions(compare: first, with: second)
 
+//демонстрация результата
 switch compareResult {
 case -1:
     print("Первая версия больше.")
