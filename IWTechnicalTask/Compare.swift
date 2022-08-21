@@ -4,110 +4,56 @@
 //
 //  Created by admin on 15.08.2022.
 //
-
 import Foundation
 
-func compareVersions(compare firstVersion: String?, with secondVersion: String?) -> Int {
+enum VersionError: Error {
+    case emptyFirstVersion
+    case invalidFirstCharacters
+    case emptySecondVersion
+    case invalidSecondCharacters
+}
+
+func compareVersions(compare firstVersion: String?, and secondVersion: String?) throws ->  ComparisonResult {
     
-    var result = 0
+    let set: Set = ["0","1","2","3","4","5","6","7","8","9","."]
     
-    var firstVersionArr:[String] = []
-    var secondVersionArr:[String] = []
-    
-    //обработка введенных данных
     guard let firstString = firstVersion, !firstString.isEmpty else {
-        print("Вы не ввели первую версию")
-        exit(1)
+        throw VersionError.emptyFirstVersion
     }
-    
     for char in firstString {
-        guard char.isNumber || (char == ".") else {
-            print("Вы использовали некорректные символы в первой версии")
-            exit(2)
+        guard set.contains(String(char)) else {
+            throw VersionError.invalidFirstCharacters
         }
     }
-    
     guard let secondString = secondVersion, !secondString.isEmpty else {
-        print("Вы не ввели вторую версию")
-        exit(3)
+        throw VersionError.emptySecondVersion
     }
-    
     for char in secondString {
-        guard char.isNumber || (char == ".") else {
-            print("Вы использовали некорректные символы во второй версии")
-            exit(4)
+        guard set.contains(String(char)) else {
+            throw VersionError.invalidSecondCharacters
         }
     }
     
-    func getArrayForCompare(_ str: String) {
-        var index = 0
-        if str == "." {
-            switch str {
-            case firstVersion:
-                firstVersionArr.append("0")
-                firstVersionArr.append("0")
-            default:
-                secondVersionArr.append("0")
-                secondVersionArr.append("0")
-            }
-            
-        } else {
-            while !str[str.index(str.startIndex, offsetBy: index)].isNumber && (index < str.count) {
-                switch str {
-                case firstVersion:
-                    firstVersionArr.append("0")
-                default:
-                    secondVersionArr.append("0")
-                }
-                index += 1
-            }
-            
-            let nums = str.split(separator: ".")
-            for substr in nums {
-                switch str {
-                case firstVersion:
-                    firstVersionArr.append(String(substr))
-                default:
-                    secondVersionArr.append(String(substr))
-                }
-            }
-        }
-
-    }
-
-    func removeZero() {
-        if !firstVersionArr.isEmpty {
-            while firstVersionArr.last == "0" {
-                firstVersionArr.removeLast()
-            }
-        }
-        if !secondVersionArr.isEmpty {
-            while secondVersionArr.last == "0" {
-                secondVersionArr.removeLast()
-            }
-        }
-    }
-    
-    getArrayForCompare(firstString)
-    getArrayForCompare(secondString)
-    removeZero()
-    
-    for i in 0..<min(firstVersionArr.count, secondVersionArr.count) {
-        if firstVersionArr[i] > secondVersionArr[i] {
-            result -= 1
-            break
-        } else if firstVersionArr[i] < secondVersionArr[i] {
-            result += 1
-            break
-        } else {
+    var i = 0, j = 0
+    repeat {
+        if i >= firstString.count { return j >= secondString.count ? .orderedSame : .orderedAscending }
+        if j >= secondString.count { return .orderedDescending }
+        
+        if firstString[firstString.index(firstString.startIndex, offsetBy: i)] == "0" {
+            i += 1
+            continue
+        } else if secondString[secondString.index(secondString.startIndex, offsetBy: j)] == "0" {
+            j += 1
             continue
         }
-    }
-    
-    if result == 0 && firstVersionArr.count > secondVersionArr.count {
-        result -= 1
-    } else if result == 0 && firstVersionArr.count < secondVersionArr.count {
-        result += 1
-    }
-    return result
+        if firstString[firstString.index(firstString.startIndex, offsetBy: i)] < secondString[secondString.index(secondString.startIndex, offsetBy: j)] {
+            return .orderedAscending
+        } else if firstString[firstString.index(firstString.startIndex, offsetBy: i)] > secondString[secondString.index(secondString.startIndex, offsetBy: j)] {
+            return .orderedDescending
+        } else {
+            i += 1
+            j += 1
+            continue
+        }
+    } while true
 }
