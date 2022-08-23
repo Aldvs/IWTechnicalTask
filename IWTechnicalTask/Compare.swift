@@ -8,54 +8,55 @@ import Foundation
 
 enum VersionError: Error {
     case emptyFirstVersion
-    case invalidFirstCharacters
+    case invalidFirstVersion
     case emptySecondVersion
-    case invalidSecondCharacters
+    case invalidSecondVersion
 }
 
-func compareVersions(compare firstVersion: String?, and secondVersion: String?) throws ->  ComparisonResult {
+func compareVersions(_ firstString: String?,_ secondString: String?) throws ->  ComparisonResult {
     
     var digits = NSCharacterSet.decimalDigits
     digits.insert(charactersIn: ".")
     
-    guard var firstString = firstVersion, !firstString.isEmpty else {
+    guard var firstVersion = firstString, !firstVersion.isEmpty else {
         throw VersionError.emptyFirstVersion
     }
-    guard CharacterSet(charactersIn: firstString).isSubset(of: digits) else {
-        throw VersionError.invalidFirstCharacters
+    guard CharacterSet(charactersIn: firstVersion).isSubset(of: digits) else {
+        throw VersionError.invalidFirstVersion
     }
-    guard var secondString = secondVersion, !secondString.isEmpty else {
+    guard var secondVersion = secondString, !secondVersion.isEmpty else {
         throw VersionError.emptySecondVersion
     }
-    guard CharacterSet(charactersIn: secondString).isSubset(of: digits) else {
-        throw VersionError.invalidSecondCharacters
+    guard CharacterSet(charactersIn: secondVersion).isSubset(of: digits) else {
+        throw VersionError.invalidSecondVersion
     }
-    if firstString.last == "0" { firstString.removeLast() }
-    if secondString.last == "0" { secondString.removeLast() }
-    if firstString.filter({ $0 == "."}).count > secondString.filter({ $0 == "."}).count {
-        for _ in 0..<(firstString.filter({ $0 == "."}).count - secondString.filter({ $0 == "."}).count) {
-            secondString += "." }
+    
+    if firstVersion.last == "0" { firstVersion.removeLast() }
+    if secondVersion.last == "0" { secondVersion.removeLast() }
+    if firstVersion.filter({ $0 == "."}).count > secondVersion.filter({ $0 == "."}).count {
+        for _ in 0..<(firstVersion.filter({ $0 == "."}).count - secondVersion.filter({ $0 == "."}).count) {
+            secondVersion += "." }
     } else {
-        for _ in 0..<(secondString.filter({ $0 == "."}).count - firstString.filter({ $0 == "."}).count) {
-            firstString += "." } }
+        for _ in 0..<(secondVersion.filter({ $0 == "."}).count - firstVersion.filter({ $0 == "."}).count) {
+            firstVersion += "." } }
     
     var i = 0, j = 0
     repeat {
-        if i >= firstString.count { return j >= secondString.count ? .orderedSame : .orderedAscending }
-        if j >= secondString.count { return .orderedDescending }
-        if firstString[firstString.index(firstString.startIndex, offsetBy: i)] == "0" && secondString[secondString.index(secondString.startIndex, offsetBy: j)] == "0" {
+        if i >= firstVersion.count { return j >= secondVersion.count ? .orderedSame : .orderedAscending }
+        if j >= secondVersion.count { return .orderedDescending }
+        if firstVersion[firstVersion.index(firstVersion.startIndex, offsetBy: i)] == "0" && secondVersion[secondVersion.index(secondVersion.startIndex, offsetBy: j)] == "0" {
             i += 1; j += 1
             continue
-        } else if firstString[firstString.index(firstString.startIndex, offsetBy: i)] == "0" {
+        } else if firstVersion[firstVersion.index(firstVersion.startIndex, offsetBy: i)] == "0" {
             i += 1
             continue
-        } else if secondString[secondString.index(secondString.startIndex, offsetBy: j)] == "0" {
+        } else if secondVersion[secondVersion.index(secondVersion.startIndex, offsetBy: j)] == "0" {
             j += 1
             continue
         }
-        if firstString[firstString.index(firstString.startIndex, offsetBy: i)] < secondString[secondString.index(secondString.startIndex, offsetBy: j)] {
+        if firstVersion[firstVersion.index(firstVersion.startIndex, offsetBy: i)] < secondVersion[secondVersion.index(secondVersion.startIndex, offsetBy: j)] {
             return .orderedAscending
-        } else if firstString[firstString.index(firstString.startIndex, offsetBy: i)] > secondString[secondString.index(secondString.startIndex, offsetBy: j)] {
+        } else if firstVersion[firstVersion.index(firstVersion.startIndex, offsetBy: i)] > secondVersion[secondVersion.index(secondVersion.startIndex, offsetBy: j)] {
             return .orderedDescending
         } else {
             i += 1; j += 1

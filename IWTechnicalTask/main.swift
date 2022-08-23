@@ -15,7 +15,7 @@ let second = readLine()
 
 //вызов метода сравнения
 do {
-    let result = try compareVersions(compare: first, and: second)
+    let result = try compareVersions(first, second)
     switch result {
     case .orderedAscending:
         print("Первая версия меньше.")
@@ -28,9 +28,9 @@ do {
     print("Вы не ввели первую версию")
 } catch VersionError.emptySecondVersion {
     print("Вы не ввели вторую версию")
-} catch VersionError.invalidFirstCharacters {
+} catch VersionError.invalidFirstVersion {
     print("Первая версия содержит недопустимые символы")
-} catch VersionError.invalidSecondCharacters {
+} catch VersionError.invalidSecondVersion {
     print("Вторая версия содержит недопустимые символы")
 }
 
