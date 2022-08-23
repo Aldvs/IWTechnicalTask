@@ -18,26 +18,31 @@ func compareVersions(compare firstVersion: String?, and secondVersion: String?) 
     var digits = NSCharacterSet.decimalDigits
     digits.insert(charactersIn: ".")
     
-    guard let firstString = firstVersion, !firstString.isEmpty else {
+    guard var firstString = firstVersion, !firstString.isEmpty else {
         throw VersionError.emptyFirstVersion
     }
     guard CharacterSet(charactersIn: firstString).isSubset(of: digits) else {
         throw VersionError.invalidFirstCharacters
     }
-    
-    guard let secondString = secondVersion, !secondString.isEmpty else {
+    guard var secondString = secondVersion, !secondString.isEmpty else {
         throw VersionError.emptySecondVersion
     }
     guard CharacterSet(charactersIn: secondString).isSubset(of: digits) else {
         throw VersionError.invalidSecondCharacters
     }
+    
+    if !(firstString.contains(".") != secondString.contains(".")) {
+        firstString += "."; secondString += "."
+    } else { firstString.contains(".") ? (secondString += ".0") : (firstString += ".0") }
 
     var i = 0, j = 0
     repeat {
         if i >= firstString.count { return j >= secondString.count ? .orderedSame : .orderedAscending }
         if j >= secondString.count { return .orderedDescending }
-        
-        if firstString[firstString.index(firstString.startIndex, offsetBy: i)] == "0" {
+        if firstString[firstString.index(firstString.startIndex, offsetBy: i)] == "0" && secondString[secondString.index(secondString.startIndex, offsetBy: j)] == "0" {
+            i += 1; j += 1
+            continue
+        } else if firstString[firstString.index(firstString.startIndex, offsetBy: i)] == "0" {
             i += 1
             continue
         } else if secondString[secondString.index(secondString.startIndex, offsetBy: j)] == "0" {
@@ -49,8 +54,7 @@ func compareVersions(compare firstVersion: String?, and secondVersion: String?) 
         } else if firstString[firstString.index(firstString.startIndex, offsetBy: i)] > secondString[secondString.index(secondString.startIndex, offsetBy: j)] {
             return .orderedDescending
         } else {
-            i += 1
-            j += 1
+            i += 1; j += 1
             continue
         }
     } while true
