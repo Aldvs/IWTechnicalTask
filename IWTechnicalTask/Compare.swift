@@ -31,10 +31,12 @@ func compareVersions(compare firstVersion: String?, and secondVersion: String?) 
         throw VersionError.invalidSecondCharacters
     }
     
-    if !(firstString.contains(".") != secondString.contains(".")) {
+    if firstString.filter({ $0 == "."}).count == secondString.filter({ $0 == "."}).count {
         firstString += "."; secondString += "."
-    } else { firstString.contains(".") ? (secondString += ".0") : (firstString += ".0") }
-
+    } else {
+        firstString.filter({ $0 == "."}).count > secondString.filter({ $0 == "."}).count ? secondString += ".0" : (firstString += ".0")
+    }
+    
     var i = 0, j = 0
     repeat {
         if i >= firstString.count { return j >= secondString.count ? .orderedSame : .orderedAscending }
