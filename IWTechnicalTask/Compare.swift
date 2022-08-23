@@ -30,12 +30,14 @@ func compareVersions(compare firstVersion: String?, and secondVersion: String?) 
     guard CharacterSet(charactersIn: secondString).isSubset(of: digits) else {
         throw VersionError.invalidSecondCharacters
     }
-    
-    if firstString.filter({ $0 == "."}).count == secondString.filter({ $0 == "."}).count {
-        firstString += "."; secondString += "."
+    if firstString.last == "0" { firstString.removeLast() }
+    if secondString.last == "0" { secondString.removeLast() }
+    if firstString.filter({ $0 == "."}).count > secondString.filter({ $0 == "."}).count {
+        for _ in 0..<(firstString.filter({ $0 == "."}).count - secondString.filter({ $0 == "."}).count) {
+            secondString += "." }
     } else {
-        firstString.filter({ $0 == "."}).count > secondString.filter({ $0 == "."}).count ? secondString += ".0" : (firstString += ".0")
-    }
+        for _ in 0..<(secondString.filter({ $0 == "."}).count - firstString.filter({ $0 == "."}).count) {
+            firstString += "." } }
     
     var i = 0, j = 0
     repeat {
