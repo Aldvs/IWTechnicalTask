@@ -31,8 +31,8 @@ func compareVersions(_ firstString: String?,_ secondString: String?) throws ->  
         throw VersionError.invalidSecondVersion
     }
     
-    if first.last == "0" { first.removeLast() }
-    if second.last == "0" { second.removeLast() }
+    if first.suffix(2) == ".0" { first.removeLast() }
+    if second.suffix(2) == ".0" { second.removeLast() }
     if first.filter({ $0 == "."}).count > second.filter({ $0 == "."}).count {
         for _ in 0..<(first.filter({ $0 == "."}).count - second.filter({ $0 == "."}).count) {
             second += "." }
