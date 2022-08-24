@@ -13,8 +13,9 @@ enum VersionError: Error {
     case invalidSecondVersion
 }
 
-func compareVersions(_ first: inout String,_ second: inout String) throws ->  ComparisonResult {
-    
+func compareVersions(_ firstVersion: String,_ secondVersion: String) throws ->  ComparisonResult {
+    var first = firstVersion
+    var second = secondVersion
     var digits = NSCharacterSet.decimalDigits
     digits.insert(charactersIn: ".")
     

@@ -16,10 +16,10 @@ let secondString = readLine()
 
 //вызов метода сравнения
 do {
-    guard var first = firstString, !first.isEmpty else { throw VersionError.emptyFirstVersion }
-    guard var second = secondString, !second.isEmpty else { throw VersionError.emptySecondVersion }
+    guard let first = firstString, !first.isEmpty else { throw VersionError.emptyFirstVersion }
+    guard let second = secondString, !second.isEmpty else { throw VersionError.emptySecondVersion }
     
-    let result = try compareVersions(&first, &second)
+    let result = try compareVersions(first, second)
     switch result {
     case .orderedAscending:
         print("Первая версия меньше.")
