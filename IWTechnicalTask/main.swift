@@ -9,13 +9,17 @@ import Foundation
 
 //MARK: - Ввод данных
 print("Введите первую версию:")
-let first = readLine()
+let firstString = readLine()
 print("Введите вторую версию:")
-let second = readLine()
+let secondString = readLine()
+
 
 //вызов метода сравнения
 do {
-    let result = try compareVersions(first, second)
+    guard var first = firstString, !first.isEmpty else { throw VersionError.emptyFirstVersion }
+    guard var second = secondString, !second.isEmpty else { throw VersionError.emptySecondVersion }
+    
+    let result = try compareVersions(&first, &second)
     switch result {
     case .orderedAscending:
         print("Первая версия меньше.")

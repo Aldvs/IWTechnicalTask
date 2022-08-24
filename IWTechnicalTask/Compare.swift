@@ -13,19 +13,13 @@ enum VersionError: Error {
     case invalidSecondVersion
 }
 
-func compareVersions(_ firstString: String?,_ secondString: String?) throws ->  ComparisonResult {
+func compareVersions(_ first: inout String,_ second: inout String) throws ->  ComparisonResult {
     
     var digits = NSCharacterSet.decimalDigits
     digits.insert(charactersIn: ".")
     
-    guard var first = firstString, !first.isEmpty else {
-        throw VersionError.emptyFirstVersion
-    }
     guard CharacterSet(charactersIn: first).isSubset(of: digits) else {
         throw VersionError.invalidFirstVersion
-    }
-    guard var second = secondString, !second.isEmpty else {
-        throw VersionError.emptySecondVersion
     }
     guard CharacterSet(charactersIn: second).isSubset(of: digits) else {
         throw VersionError.invalidSecondVersion
