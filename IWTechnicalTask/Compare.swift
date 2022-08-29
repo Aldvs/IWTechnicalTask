@@ -26,14 +26,17 @@ func compareVersions(_ firstVersion: String,_ secondVersion: String) throws ->  
         throw VersionError.invalidSecondVersion
     }
     
-    if first.suffix(2) == ".0" { first.removeLast() }
-    if second.suffix(2) == ".0" { second.removeLast() }
     if first.filter({ $0 == "."}).count > second.filter({ $0 == "."}).count {
         for _ in 0..<(first.filter({ $0 == "."}).count - second.filter({ $0 == "."}).count) {
             second += "." }
     } else {
         for _ in 0..<(second.filter({ $0 == "."}).count - first.filter({ $0 == "."}).count) {
             first += "." } }
+    
+    if (first.last?.isNumber != nil) || (second.last?.isNumber != nil) {
+        first.append(contentsOf: ".")
+        second.append(contentsOf: ".")
+    }
     
     var i = 0, j = 0
     repeat {
